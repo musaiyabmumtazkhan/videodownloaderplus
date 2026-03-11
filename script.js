@@ -1,16 +1,35 @@
 const input = document.getElementById("url")
 
-// AUTO FETCH WHEN PASTE
-input.addEventListener("paste", () => {
+const preview = document.getElementById("preview")
+const downloadBtn = document.getElementById("downloadBtn")
+const loader = document.getElementById("loader")
+const progress = document.querySelector(".progress")
+const bar = document.getElementById("progressBar")
 
-setTimeout(fetchVideo, 400)
+// PLATFORM ICON DETECT
+
+function detectPlatform(url){
+
+if(url.includes("tiktok")) return "🎵"
+if(url.includes("instagram")) return "📸"
+if(url.includes("facebook")) return "📘"
+if(url.includes("youtube")) return "▶️"
+
+return "🎬"
+
+}
+
+// AUTO FETCH ON PASTE
+
+input.addEventListener("paste", ()=>{
+
+setTimeout(fetchVideo,400)
 
 })
 
 // PASTE BUTTON
-document.getElementById("pasteBtn").onclick = async () => {
 
-try{
+document.getElementById("pasteBtn").onclick = async ()=>{
 
 const text = await navigator.clipboard.readText()
 
@@ -18,118 +37,75 @@ input.value = text
 
 fetchVideo()
 
-}catch{
-
-alert("Clipboard blocked")
-
 }
-
-}
-
 
 // FETCH VIDEO
+
 async function fetchVideo(){
 
 const url = input.value
 
-if(!url) return
+document.getElementById("platformIcon").innerText = detectPlatform(url)
+
+loader.style.display = "block"
 
 try{
 
-const res = await fetch("/api/download?url=" + encodeURIComponent(url))
+const res = await fetch("/api/download?url="+encodeURIComponent(url))
 
 const data = await res.json()
 
-if(!data.video){
+loader.style.display="none"
 
-alert("Video not found")
-return
+preview.src = data.video
+preview.style.display="block"
+
+downloadBtn.style.display="block"
+
+downloadBtn.onclick = ()=>{
+
+downloadVideo(data.video)
 
 }
 
-// SHOW PREVIEW
-showPreview(data.video)
-
 }catch{
 
+loader.style.display="none"
 alert("Fetch failed")
 
 }
 
 }
 
+// DOWNLOAD WITH PROGRESS
 
-// VIDEO PREVIEW
-function showPreview(videoUrl){
-
-let preview = document.getElementById("preview")
-
-if(!preview){
-
-preview = document.createElement("video")
-
-preview.id = "preview"
-preview.controls = true
-preview.style.width = "100%"
-preview.style.marginTop = "15px"
-
-document.querySelector(".card").appendChild(preview)
-
-}
-
-preview.src = videoUrl
-
-
-showDownload(videoUrl)
-
-}
-
-
-// DOWNLOAD BUTTON
-function showDownload(videoUrl){
-
-let btn = document.getElementById("downloadBtn")
-
-if(!btn){
-
-btn = document.createElement("button")
-
-btn.id = "downloadBtn"
-btn.innerText = "Download Video"
-
-btn.style.marginTop = "10px"
-
-document.querySelector(".card").appendChild(btn)
-
-}
-
-btn.onclick = () => {
-
-downloadVideo(videoUrl)
-
-}
-
-}
-
-
-// DIRECT DOWNLOAD
 function downloadVideo(url){
 
+progress.style.display="block"
+
 fetch(url)
-.then(res => res.blob())
-.then(blob => {
+.then(res=>res.body.getReader())
+.then(reader=>{
 
-const a = document.createElement("a")
+let received=0
 
-a.href = URL.createObjectURL(blob)
+function read(){
 
-a.download = "clipsnap-video.mp4"
+reader.read().then(({done,value})=>{
 
-document.body.appendChild(a)
+if(done) return
 
-a.click()
+received += value.length
 
-document.body.removeChild(a)
+bar.style.width = (received/1000000)*100 + "%"
+
+read()
+
+})
+
+}
+
+read()
 
 })
 
