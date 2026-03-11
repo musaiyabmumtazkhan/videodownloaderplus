@@ -3,6 +3,7 @@ const preview = document.getElementById("preview")
 const downloadBtn = document.getElementById("downloadBtn")
 const loader = document.getElementById("loader")
 
+// platform icon detect
 function detectPlatform(url){
 
 if(url.includes("tiktok")) return "🎵"
@@ -14,12 +15,7 @@ return "🎬"
 
 }
 
-input.addEventListener("paste", ()=>{
-
-setTimeout(fetchVideo,400)
-
-})
-
+// paste button
 document.getElementById("pasteBtn").onclick = async ()=>{
 
 const text = await navigator.clipboard.readText()
@@ -30,9 +26,16 @@ fetchVideo()
 
 }
 
+// auto fetch on paste
+input.addEventListener("paste", ()=>{
+
+setTimeout(fetchVideo,400)
+
+})
+
 async function fetchVideo(){
 
-const url=input.value
+const url = input.value
 
 document.getElementById("platformIcon").innerText = detectPlatform(url)
 
@@ -40,19 +43,19 @@ loader.style.display="block"
 
 try{
 
-const res=await fetch("/api/download?url="+encodeURIComponent(url))
-const data=await res.json()
+const res = await fetch("/api/download?url="+encodeURIComponent(url))
+const data = await res.json()
 
 loader.style.display="none"
 
-preview.src=data.video
+preview.src = data.video
 preview.style.display="block"
 
 downloadBtn.style.display="block"
 
-downloadBtn.onclick=()=>{
+downloadBtn.onclick = ()=>{
 
-startDownload(data.video)
+downloadVideo(data.video)
 
 }
 
@@ -65,7 +68,8 @@ alert("Fetch failed")
 
 }
 
-function startDownload(url){
+// direct download
+function downloadVideo(url){
 
 const a=document.createElement("a")
 
