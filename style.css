@@ -1,190 +1,58 @@
-body{
-
-margin:0;
-font-family:system-ui;
-
-background:#ffffff;
-
-min-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-}
-
-@keyframes gradientMove{
-
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-
-}
-
-.app{
-
-width:100%;
-max-width:360px;
-padding:20px;
-text-align:center;
-
-}
-
-.brand{
-
-text-align:center;
-
-margin-bottom:30px;
-
-}
-
-.logo{
-
-width:48px;
-
-margin-bottom:10px;
-
-}
-
-.brand h1{
-
-margin:0;
-font-size:26px;
-
-}
-
-.brand p{
-
-margin:0;
-opacity:.8;
-
-}
-
-.card{
-
-background:rgba(255,255,255,.25);
-
-backdrop-filter:blur(30px);
-
-border-radius:22px;
-
-padding:20px;
-
-box-shadow:0 20px 40px rgba(0,0,0,.2);
-
-}
+/* INPUT GLASS LOOK */
 
 .inputBox{
 
-display:flex;
-align-items:center;
+position:relative;
 
-background:white;
+background:rgba(255,255,255,0.9);
 
 border-radius:12px;
 
 padding:10px;
 
+box-shadow:0 4px 10px rgba(0,0,0,.05) inset;
+
+transition:all .3s ease;
+
 }
 
-input{
+/* FOCUS GLOW */
+
+.inputBox:focus-within{
+
+box-shadow:0 0 0 2px rgba(34,197,94,.25),
+0 6px 20px rgba(0,0,0,.08);
+
+}
+
+/* FLOATING PLACEHOLDER */
+
+.inputBox input{
 
 flex:1;
+
 border:none;
+
 outline:none;
 
-}
+font-size:14px;
 
-#pasteBtn{
-
-border:none;
-background:none;
-
-font-size:18px;
-cursor:pointer;
+background:transparent;
 
 }
 
-#loader{
+.inputBox input::placeholder{
 
-width:22px;
-height:22px;
+color:#94a3b8;
 
-border:3px solid #ddd;
-border-top:3px solid #6366f1;
-
-border-radius:50%;
-
-animation:spin .8s linear infinite;
-
-margin:15px auto;
-display:none;
+transition:all .2s ease;
 
 }
 
-@keyframes spin{
+.inputBox input:focus::placeholder{
 
-0%{transform:rotate(0)}
-100%{transform:rotate(360deg)}
+opacity:.5;
 
-}
-
-#preview{
-
-width:100%;
-margin-top:15px;
-
-border-radius:12px;
-display:none;
+transform:translateY(-2px);
 
 }
-
-#downloadBtn{
-
-width:100%;
-margin-top:12px;
-
-padding:12px;
-
-border:none;
-
-border-radius:12px;
-
-background:#22c55e;
-
-color:white;
-
-font-weight:600;
-
-cursor:pointer;
-
-display:none;
-
-}
-
-.platforms{
-
-display:flex;
-justify-content:space-around;
-
-margin-top:20px;
-
-}
-
-.platforms img{
-
-width:28px;
-
-animation:float 3s ease-in-out infinite;
-
-}
-
-@keyframes float{
-
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-6px)}
-
-}
-
-
-
