@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>ClipSnap - Video Downloader</title>
+<title>ClipSnap</title>
+
+<link rel="icon" href="favicon.png">
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,32 +16,38 @@
 
 <body>
 
-<div class="app">
+<div class="container">
+
+<div class="header">
 
 <h1>ClipSnap</h1>
-<p class="author">by Musaiyab</p>
+<span>by Musaiyab</span>
+
+<button id="themeToggle">🌙</button>
+
+</div>
+
+<div class="card">
 
 <div class="inputBox">
 
 <span id="platform">🎬</span>
 
-<input id="url" placeholder="Paste video link">
+<input id="url" placeholder="Paste TikTok / Insta / FB / YouTube link">
 
 <button id="pasteBtn">📋</button>
 
 </div>
 
-<button onclick="fetchVideo()">Fetch Video</button>
+<button id="fetchBtn">Fetch Video</button>
 
-<!-- DOWNLOAD SECTION -->
+</div>
 
-<div id="result">
+<div id="downloadSection">
 
 <img id="thumb">
 
-<video id="player" controls></video>
-
-<button id="downloadBtn">Download</button>
+<button id="downloadBtn">Download Video</button>
 
 </div>
 
