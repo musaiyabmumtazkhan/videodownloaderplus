@@ -1,30 +1,31 @@
-export default async function handler(req, res) {
+export default async function handler(req,res){
 
-const { url } = req.query;
+const {url}=req.query
 
-if (!url) {
-return res.status(400).json({ error: "No URL provided" });
+if(!url){
+return res.status(400).json({error:"URL missing"})
 }
 
-try {
+try{
 
-const response = await fetch(
-"https://tikwm.com/api/?url=" + encodeURIComponent(url)
-);
+const response=await fetch(
+"https://tikwm.com/api/?url="+encodeURIComponent(url)
+)
 
-const data = await response.json();
-
-if (!data.data) {
-return res.status(404).json({ error: "Video not found" });
-}
+const data=await response.json()
 
 return res.status(200).json({
-video: data.data.play
-});
 
-} catch (error) {
+video:data.data.play,
+thumbnail:data.data.cover
 
-return res.status(500).json({ error: "Server error" });
+})
+
+}
+
+catch(e){
+
+return res.status(500).json({error:"Download failed"})
 
 }
 
