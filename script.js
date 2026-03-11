@@ -44,9 +44,13 @@ fetchVideo()
 })
 
 // auto fetch
-input.addEventListener("paste", ()=>{
+input.addEventListener("input", ()=>{
 
-setTimeout(fetchVideo,300)
+const url = input.value
+
+if(url.includes("http")){
+fetchVideo()
+}
 
 })
 
@@ -107,3 +111,4 @@ document.body.removeChild(a)
 })
 
 }
+
