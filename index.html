@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Video Downloader</title>
+<title>Downloader</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,15 +13,22 @@
 
 <body>
 
-<div class="card">
+<div class="box">
 
-<h2>Video Downloader</h2>
+<h1>Video Downloader</h1>
 
-<input id="url" placeholder="Paste TikTok / Insta / FB / YouTube link">
+<input id="url" placeholder="Paste TikTok / Insta / FB link">
 
-<button onclick="getVideo()">Fetch Video</button>
+<img id="thumb">
 
-<video id="preview" controls></video>
+<select id="quality">
+<option value="hd">HD</option>
+<option value="sd">SD</option>
+</select>
+
+<button onclick="fetchVideo()">Fetch</button>
+
+<video id="player" controls></video>
 
 <a id="download" target="_blank">
 <button>Download</button>
