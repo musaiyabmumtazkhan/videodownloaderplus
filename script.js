@@ -1,84 +1,71 @@
 const input = document.getElementById("url")
 
+// THEME TOGGLE
+document.getElementById("themeToggle").onclick=()=>{
+
+document.body.classList.toggle("light")
+
+}
+
 // PASTE BUTTON
-document.getElementById("pasteBtn").onclick = async () => {
+document.getElementById("pasteBtn").onclick = async ()=>{
 
 const text = await navigator.clipboard.readText()
 
 input.value = text
 
-detectPlatform(text)
-
 }
 
-// AUTO CLIPBOARD DETECT
-window.addEventListener("load", async () => {
+// PLATFORM ICON
+function detect(url){
 
-try{
+if(url.includes("tiktok")) return "🎵"
+if(url.includes("instagram")) return "📸"
+if(url.includes("facebook")) return "📘"
+if(url.includes("youtube")) return "▶️"
 
-const text = await navigator.clipboard.readText()
-
-if(text.includes("http")){
-
-input.value = text
-detectPlatform(text)
-
-}
-
-}catch{}
-
-})
-
-function detectPlatform(url){
-
-if(url.includes("tiktok")) return platform("🎵")
-if(url.includes("instagram")) return platform("📸")
-if(url.includes("facebook")) return platform("📘")
-if(url.includes("youtube")) return platform("▶️")
-
-}
-
-function platform(icon){
-
-document.getElementById("platform").innerText = icon
+return "🎬"
 
 }
 
 // FETCH VIDEO
-async function fetchVideo(){
+document.getElementById("fetchBtn").onclick = async ()=>{
 
-const url = input.value
+const url=input.value
 
-const res = await fetch("/api/download?url="+encodeURIComponent(url))
+document.getElementById("platform").innerText=detect(url)
 
-const data = await res.json()
+const res=await fetch("/api/download?url="+encodeURIComponent(url))
 
-document.getElementById("thumb").src = data.thumbnail
+const data=await res.json()
 
-document.getElementById("player").src = data.video
+document.getElementById("thumb").src=data.thumbnail
 
-document.getElementById("result").style.display = "block"
+document.getElementById("downloadSection").style.display="block"
 
-document.getElementById("downloadBtn").onclick = () => {
+document.getElementById("downloadBtn").onclick=()=>{
 
-downloadVideo(data.video)
+download(data.video)
 
 }
 
 }
 
 // DIRECT DOWNLOAD
-function downloadVideo(url){
+function download(url){
 
-const a = document.createElement("a")
+fetch(url)
+.then(r=>r.blob())
+.then(blob=>{
 
-a.href = url
-a.download = "clipsnap-video.mp4"
+const a=document.createElement("a")
 
-document.body.appendChild(a)
+a.href=URL.createObjectURL(blob)
+
+a.download="clipsnap-video.mp4"
 
 a.click()
 
-document.body.removeChild(a)
+})
 
 }
