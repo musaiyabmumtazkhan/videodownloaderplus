@@ -1,12 +1,7 @@
 const input = document.getElementById("url")
-
 const preview = document.getElementById("preview")
 const downloadBtn = document.getElementById("downloadBtn")
 const loader = document.getElementById("loader")
-const progress = document.querySelector(".progress")
-const bar = document.getElementById("progressBar")
-
-// PLATFORM ICON DETECT
 
 function detectPlatform(url){
 
@@ -19,15 +14,11 @@ return "🎬"
 
 }
 
-// AUTO FETCH ON PASTE
-
 input.addEventListener("paste", ()=>{
 
 setTimeout(fetchVideo,400)
 
 })
-
-// PASTE BUTTON
 
 document.getElementById("pasteBtn").onclick = async ()=>{
 
@@ -39,32 +30,29 @@ fetchVideo()
 
 }
 
-// FETCH VIDEO
-
 async function fetchVideo(){
 
-const url = input.value
+const url=input.value
 
 document.getElementById("platformIcon").innerText = detectPlatform(url)
 
-loader.style.display = "block"
+loader.style.display="block"
 
 try{
 
-const res = await fetch("/api/download?url="+encodeURIComponent(url))
-
-const data = await res.json()
+const res=await fetch("/api/download?url="+encodeURIComponent(url))
+const data=await res.json()
 
 loader.style.display="none"
 
-preview.src = data.video
+preview.src=data.video
 preview.style.display="block"
 
 downloadBtn.style.display="block"
 
-downloadBtn.onclick = ()=>{
+downloadBtn.onclick=()=>{
 
-downloadVideo(data.video)
+startDownload(data.video)
 
 }
 
@@ -77,36 +65,17 @@ alert("Fetch failed")
 
 }
 
-// DOWNLOAD WITH PROGRESS
+function startDownload(url){
 
-function downloadVideo(url){
+const a=document.createElement("a")
 
-progress.style.display="block"
+a.href=url
+a.download="clipsnap-video.mp4"
 
-fetch(url)
-.then(res=>res.body.getReader())
-.then(reader=>{
+document.body.appendChild(a)
 
-let received=0
+a.click()
 
-function read(){
-
-reader.read().then(({done,value})=>{
-
-if(done) return
-
-received += value.length
-
-bar.style.width = (received/1000000)*100 + "%"
-
-read()
-
-})
-
-}
-
-read()
-
-})
+document.body.removeChild(a)
 
 }
