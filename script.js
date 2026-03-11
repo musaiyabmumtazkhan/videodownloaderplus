@@ -1,14 +1,31 @@
-async function getVideo(){
+const input=document.getElementById("url")
 
-let url=document.getElementById("url").value
+input.addEventListener("paste",()=>{
 
-let res=await fetch("/api/download?url="+encodeURIComponent(url))
+setTimeout(fetchVideo,500)
 
-let data=await res.json()
+})
 
-let video=document.getElementById("preview")
+async function fetchVideo(){
 
-video.src=data.video
+const url=input.value
+
+const res=await fetch("/api/download?url="+encodeURIComponent(url))
+
+const data=await res.json()
+
+const player=document.getElementById("player")
+const thumb=document.getElementById("thumb")
+
+player.src=data.video
+player.style.display="block"
+
+if(data.thumbnail){
+
+thumb.src=data.thumbnail
+thumb.style.display="block"
+
+}
 
 document.getElementById("download").href=data.video
 
