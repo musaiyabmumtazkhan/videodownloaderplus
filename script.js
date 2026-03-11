@@ -1,57 +1,84 @@
-const input=document.getElementById("url")
+const input = document.getElementById("url")
 
-input.addEventListener("paste",()=>{
+// PASTE BUTTON
+document.getElementById("pasteBtn").onclick = async () => {
 
-setTimeout(fetchVideo,500)
+const text = await navigator.clipboard.readText()
+
+input.value = text
+
+detectPlatform(text)
+
+}
+
+// AUTO CLIPBOARD DETECT
+window.addEventListener("load", async () => {
+
+try{
+
+const text = await navigator.clipboard.readText()
+
+if(text.includes("http")){
+
+input.value = text
+detectPlatform(text)
+
+}
+
+}catch{}
 
 })
 
 function detectPlatform(url){
 
-if(url.includes("tiktok")) return "🎵"
-if(url.includes("instagram")) return "📸"
-if(url.includes("facebook")) return "📘"
-if(url.includes("youtube")) return "▶️"
-
-return "🎬"
+if(url.includes("tiktok")) return platform("🎵")
+if(url.includes("instagram")) return platform("📸")
+if(url.includes("facebook")) return platform("📘")
+if(url.includes("youtube")) return platform("▶️")
 
 }
 
+function platform(icon){
+
+document.getElementById("platform").innerText = icon
+
+}
+
+// FETCH VIDEO
 async function fetchVideo(){
 
-const url=input.value
+const url = input.value
 
-document.getElementById("platform").innerText=detectPlatform(url)
+const res = await fetch("/api/download?url="+encodeURIComponent(url))
 
-const res=await fetch("/api/download?url="+encodeURIComponent(url))
+const data = await res.json()
 
-const data=await res.json()
+document.getElementById("thumb").src = data.thumbnail
 
-document.getElementById("thumb").src=data.thumbnail
-document.getElementById("thumb").style.display="block"
+document.getElementById("player").src = data.video
 
-document.getElementById("player").src=data.video
+document.getElementById("result").style.display = "block"
 
-document.getElementById("download").href=data.video
+document.getElementById("downloadBtn").onclick = () => {
 
-animateProgress()
+downloadVideo(data.video)
 
 }
 
-function animateProgress(){
+}
 
-let bar=document.getElementById("bar")
+// DIRECT DOWNLOAD
+function downloadVideo(url){
 
-let w=0
+const a = document.createElement("a")
 
-let i=setInterval(()=>{
+a.href = url
+a.download = "clipsnap-video.mp4"
 
-w+=10
+document.body.appendChild(a)
 
-bar.style.width=w+"%"
+a.click()
 
-if(w>=100) clearInterval(i)
-
-},100)
+document.body.removeChild(a)
 
 }
