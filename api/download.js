@@ -1,17 +1,14 @@
 export default async function handler(req,res){
 
-const {url} = req.query
+const { url } = req.query
 
 if(!url){
-
 return res.status(400).json({error:"URL missing"})
-
 }
 
 try{
 
 // TIKTOK
-
 if(url.includes("tiktok")){
 
 const r = await fetch("https://tikwm.com/api/?url="+encodeURIComponent(url))
@@ -23,53 +20,33 @@ video:data.data.play
 
 }
 
+// INSTAGRAM + FACEBOOK
+if(url.includes("instagram") || url.includes("facebook") || url.includes("fb.watch")){
 
-// INSTAGRAM
+const r = await fetch("https://snapsave.app/action.php?url="+encodeURIComponent(url))
+const html = await r.text()
 
-if(url.includes("instagram")){
+// simple video url extract
+const match = html.match(/https:[^"]+\.mp4/g)
 
-const r = await fetch("https://igram.world/api/ig?url="+encodeURIComponent(url))
-const data = await r.json()
-
-return res.status(200).json({
-video:data.video
-})
-
+if(match){
+return res.status(200).json({ video: match[0] })
 }
 
-
-// FACEBOOK
-
-if(url.includes("facebook") || url.includes("fb.watch")){
-
-const r = await fetch("https://fdown.net/api?url="+encodeURIComponent(url))
-const data = await r.json()
-
-return res.status(200).json({
-video:data.hd
-})
-
+return res.status(400).json({error:"Video not found"})
 }
-
 
 // YOUTUBE
-
 if(url.includes("youtube") || url.includes("youtu.be")){
 
-const r = await fetch("https://yt1s.io/api/ajaxSearch/index?query="+encodeURIComponent(url))
-const data = await r.json()
-
-return res.status(200).json({
-video:data.links.mp4.auto.url
-})
-
+return res.status(400).json({error:"YouTube disabled on serverless"})
 }
 
 return res.status(400).json({error:"Unsupported link"})
 
-}catch{
+}catch(e){
 
-return res.status(500).json({error:"Download failed"})
+return res.status(500).json({error:"Fetch failed"})
 
 }
 
