@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Downloader</title>
+<title>ClipSnap</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,11 +13,18 @@
 
 <body>
 
-<div class="box">
+<div class="app">
 
-<h1>Video Downloader</h1>
+<h1>ClipSnap</h1>
+<p class="author">by Musaiyab</p>
 
-<input id="url" placeholder="Paste TikTok / Insta / FB link">
+<div class="inputBox">
+
+<span id="platform">🎬</span>
+
+<input id="url" placeholder="Paste video link">
+
+</div>
 
 <img id="thumb">
 
@@ -28,10 +35,14 @@
 
 <button onclick="fetchVideo()">Fetch</button>
 
+<div class="progress">
+<div id="bar"></div>
+</div>
+
 <video id="player" controls></video>
 
 <a id="download" target="_blank">
-<button>Download</button>
+<button class="download">Download</button>
 </a>
 
 </div>
