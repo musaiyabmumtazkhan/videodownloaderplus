@@ -1,71 +1,71 @@
 const input = document.getElementById("url")
 
-// THEME TOGGLE
-document.getElementById("themeToggle").onclick=()=>{
-
-document.body.classList.toggle("light")
-
-}
-
 // PASTE BUTTON
-document.getElementById("pasteBtn").onclick = async ()=>{
+document.getElementById("pasteBtn").addEventListener("click", async () => {
+
+try{
 
 const text = await navigator.clipboard.readText()
 
 input.value = text
 
-}
+}catch{
 
-// PLATFORM ICON
-function detect(url){
-
-if(url.includes("tiktok")) return "🎵"
-if(url.includes("instagram")) return "📸"
-if(url.includes("facebook")) return "📘"
-if(url.includes("youtube")) return "▶️"
-
-return "🎬"
+alert("Clipboard access denied")
 
 }
+
+})
 
 // FETCH VIDEO
-document.getElementById("fetchBtn").onclick = async ()=>{
+document.getElementById("fetchBtn").addEventListener("click", async () => {
 
-const url=input.value
+const url = input.value
 
-document.getElementById("platform").innerText=detect(url)
+if(!url){
 
-const res=await fetch("/api/download?url="+encodeURIComponent(url))
+alert("Paste video link first")
 
-const data=await res.json()
-
-document.getElementById("thumb").src=data.thumbnail
-
-document.getElementById("downloadSection").style.display="block"
-
-document.getElementById("downloadBtn").onclick=()=>{
-
-download(data.video)
+return
 
 }
 
+try{
+
+const res = await fetch("/api/download?url=" + encodeURIComponent(url))
+
+const data = await res.json()
+
+if(data.video){
+
+downloadVideo(data.video)
+
+}else{
+
+alert("Video not found")
+
 }
+
+}catch{
+
+alert("Fetch failed")
+
+}
+
+})
 
 // DIRECT DOWNLOAD
-function download(url){
+function downloadVideo(url){
 
-fetch(url)
-.then(r=>r.blob())
-.then(blob=>{
+const a = document.createElement("a")
 
-const a=document.createElement("a")
+a.href = url
+a.download = "clipsnap-video.mp4"
 
-a.href=URL.createObjectURL(blob)
-
-a.download="clipsnap-video.mp4"
+document.body.appendChild(a)
 
 a.click()
 
-})
+document.body.removeChild(a)
 
 }
