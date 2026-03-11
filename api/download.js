@@ -1,25 +1,26 @@
-import ytdlp from "yt-dlp-exec"
+export default async function handler(req, res) {
 
-export default async function handler(req,res){
+const url = req.query.url;
 
-const {url}=req.query
+try {
 
-try{
+const response = await fetch("https://tikwm.com/api/?url=" + encodeURIComponent(url));
 
-const info=await ytdlp(url,{
-dumpSingleJson:true,
-noWarnings:true
-})
+const data = await response.json();
 
-let video=info.url
+if(!data.data){
+return res.status(400).json({error:"Video not found"});
+}
 
-res.status(200).json({video})
+res.status(200).json({
+video:data.data.play
+});
 
 }
 
 catch(e){
 
-res.status(500).json({error:"Download failed"})
+res.status(500).json({error:"Server error"});
 
 }
 
