@@ -30,18 +30,19 @@ text-align:center;
 
 }
 
-.brand h1{
-color:#000;
-}
+.brand{
 
-.brand p{
-color:#555;
+text-align:center;
+
+margin-bottom:30px;
+
 }
 
 .logo{
 
 width:48px;
-margin-bottom:6px;
+
+margin-bottom:10px;
 
 }
 
@@ -184,5 +185,6 @@ animation:float 3s ease-in-out infinite;
 50%{transform:translateY(-6px)}
 
 }
+
 
 
