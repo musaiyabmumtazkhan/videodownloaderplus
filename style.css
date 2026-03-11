@@ -1,25 +1,26 @@
 body{
 
 margin:0;
-font-family:system-ui;
-background:linear-gradient(135deg,#0f172a,#1e293b);
 height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+font-family:system-ui;
 
 }
 
-.card{
+.box{
 
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(20px);
+width:340px;
 padding:30px;
 border-radius:20px;
-width:90%;
-max-width:400px;
-text-align:center;
+
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+
 color:white;
+text-align:center;
 
 }
 
@@ -33,24 +34,44 @@ margin-top:10px;
 
 }
 
+select{
+
+width:100%;
+padding:10px;
+border-radius:10px;
+margin-top:10px;
+
+}
+
 button{
 
-margin-top:10px;
-padding:12px;
 width:100%;
-border:none;
+padding:12px;
 border-radius:10px;
+border:none;
+margin-top:12px;
+
 background:#22c55e;
 color:white;
-font-weight:bold;
+font-weight:600;
+
 cursor:pointer;
 
 }
 
 video{
 
-margin-top:15px;
 width:100%;
+margin-top:15px;
 border-radius:10px;
+
+}
+
+#thumb{
+
+width:100%;
+margin-top:10px;
+border-radius:10px;
+display:none;
 
 }
