@@ -3,10 +3,7 @@ body{
 margin:0;
 font-family:system-ui;
 
-background:linear-gradient(270deg,#6366f1,#06b6d4,#2563eb);
-background-size:600% 600%;
-
-animation:gradientMove 10s ease infinite;
+background:#ffffff;
 
 min-height:100vh;
 
@@ -186,3 +183,4 @@ animation:float 3s ease-in-out infinite;
 50%{transform:translateY(-6px)}
 
 }
+
