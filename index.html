@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>ClipSnap</title>
+<title>ClipSnap - Video Downloader</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -24,26 +24,23 @@
 
 <input id="url" placeholder="Paste video link">
 
+<button id="pasteBtn">📋</button>
+
 </div>
+
+<button onclick="fetchVideo()">Fetch Video</button>
+
+<!-- DOWNLOAD SECTION -->
+
+<div id="result">
 
 <img id="thumb">
 
-<select id="quality">
-<option value="hd">HD</option>
-<option value="sd">SD</option>
-</select>
-
-<button onclick="fetchVideo()">Fetch</button>
-
-<div class="progress">
-<div id="bar"></div>
-</div>
-
 <video id="player" controls></video>
 
-<a id="download" target="_blank">
-<button class="download">Download</button>
-</a>
+<button id="downloadBtn">Download</button>
+
+</div>
 
 </div>
 
