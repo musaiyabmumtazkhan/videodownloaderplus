@@ -20,8 +20,12 @@
 
 <img src="favicon.png" class="logo">
 
+<div class="title">
+
 <h1>ClipSnap</h1>
-<p>by Musaiyab</p>
+<span>by Musaiyab</span>
+
+</div>
 
 </div>
 
@@ -29,7 +33,7 @@
 
 <div class="inputBox">
 
-<span>🎬</span>
+<span id="platformIcon">🎬</span>
 
 <input id="url" placeholder="Paste video link">
 
@@ -37,15 +41,14 @@
 
 </div>
 
-<button id="fetchBtn">Fetch Video</button>
+<div id="loader"></div>
 
-<div class="platforms">
+<video id="preview" controls></video>
 
-<img src="https://cdn.simpleicons.org/tiktok">
-<img src="https://cdn.simpleicons.org/instagram">
-<img src="https://cdn.simpleicons.org/facebook">
-<img src="https://cdn.simpleicons.org/youtube">
+<button id="downloadBtn">Download</button>
 
+<div class="progress">
+<div id="progressBar"></div>
 </div>
 
 </div>
