@@ -1,10 +1,9 @@
 export default async function handler(req, res) {
 
-const url = req.query.url;
+const { url } = req.query;
 
 if (!url) {
-res.status(400).json({ error: "No URL provided" });
-return;
+return res.status(400).json({ error: "No URL provided" });
 }
 
 try {
@@ -15,20 +14,17 @@ const response = await fetch(
 
 const data = await response.json();
 
-if (!data || !data.data) {
-res.status(404).json({ error: "Video not found" });
-return;
+if (!data.data) {
+return res.status(404).json({ error: "Video not found" });
 }
 
-res.status(200).json({
+return res.status(200).json({
 video: data.data.play
 });
 
-} catch (err) {
+} catch (error) {
 
-res.status(500).json({
-error: "Server error"
-});
+return res.status(500).json({ error: "Server error" });
 
 }
 
