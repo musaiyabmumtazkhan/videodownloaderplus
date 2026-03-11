@@ -1,36 +1,74 @@
 body{
 
 margin:0;
+font-family:system-ui;
 height:100vh;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 background:linear-gradient(135deg,#0f172a,#1e293b);
-font-family:system-ui;
 
 }
 
-.box{
+.app{
 
-width:340px;
+width:360px;
 padding:30px;
-border-radius:20px;
 
 background:rgba(255,255,255,.05);
 backdrop-filter:blur(20px);
 
+border-radius:20px;
 color:white;
 text-align:center;
 
 }
 
+h1{
+
+margin:0;
+font-size:32px;
+
+}
+
+.author{
+
+opacity:.7;
+margin-bottom:15px;
+
+}
+
+.inputBox{
+
+display:flex;
+align-items:center;
+
+background:#1e293b;
+
+padding:10px;
+border-radius:10px;
+
+}
+
 input{
 
-width:100%;
-padding:12px;
-border-radius:10px;
 border:none;
-margin-top:10px;
+background:transparent;
+color:white;
+
+flex:1;
+padding-left:8px;
+
+}
+
+#thumb{
+
+width:100%;
+margin-top:15px;
+border-radius:10px;
+display:none;
 
 }
 
@@ -38,8 +76,9 @@ select{
 
 width:100%;
 padding:10px;
-border-radius:10px;
 margin-top:10px;
+border-radius:10px;
+border:none;
 
 }
 
@@ -47,15 +86,22 @@ button{
 
 width:100%;
 padding:12px;
-border-radius:10px;
-border:none;
 margin-top:12px;
+
+border:none;
+border-radius:10px;
 
 background:#22c55e;
 color:white;
 font-weight:600;
 
 cursor:pointer;
+
+}
+
+.download{
+
+background:#3b82f6;
 
 }
 
@@ -67,11 +113,21 @@ border-radius:10px;
 
 }
 
-#thumb{
+.progress{
 
 width:100%;
-margin-top:10px;
+height:6px;
+background:#334155;
+
 border-radius:10px;
-display:none;
+margin-top:10px;
+
+}
+
+#bar{
+
+height:100%;
+width:0%;
+background:#22c55e;
 
 }
