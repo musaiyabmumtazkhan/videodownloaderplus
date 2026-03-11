@@ -3,7 +3,6 @@ const preview = document.getElementById("preview")
 const downloadBtn = document.getElementById("downloadBtn")
 const loader = document.getElementById("loader")
 
-// platform icon detect
 function detectPlatform(url){
 
 if(url.includes("tiktok")) return "🎵"
@@ -15,7 +14,7 @@ return "🎬"
 
 }
 
-// paste button
+// clipboard button
 document.getElementById("pasteBtn").onclick = async ()=>{
 
 const text = await navigator.clipboard.readText()
@@ -26,10 +25,28 @@ fetchVideo()
 
 }
 
-// auto fetch on paste
+// clipboard auto detect
+window.addEventListener("load", async ()=>{
+
+try{
+
+const text = await navigator.clipboard.readText()
+
+if(text.includes("http")){
+
+input.value = text
+fetchVideo()
+
+}
+
+}catch{}
+
+})
+
+// auto fetch
 input.addEventListener("paste", ()=>{
 
-setTimeout(fetchVideo,400)
+setTimeout(fetchVideo,300)
 
 })
 
@@ -71,9 +88,14 @@ alert("Fetch failed")
 // direct download
 function downloadVideo(url){
 
+fetch(url)
+.then(r=>r.blob())
+.then(blob=>{
+
 const a=document.createElement("a")
 
-a.href=url
+a.href=URL.createObjectURL(blob)
+
 a.download="clipsnap-video.mp4"
 
 document.body.appendChild(a)
@@ -81,5 +103,7 @@ document.body.appendChild(a)
 a.click()
 
 document.body.removeChild(a)
+
+})
 
 }
