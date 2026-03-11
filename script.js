@@ -1,5 +1,11 @@
 const input = document.getElementById("url")
-const fetchBtn = document.getElementById("fetchBtn")
+
+// AUTO FETCH WHEN PASTE
+input.addEventListener("paste", () => {
+
+setTimeout(fetchVideo, 400)
+
+})
 
 // PASTE BUTTON
 document.getElementById("pasteBtn").onclick = async () => {
@@ -7,75 +13,101 @@ document.getElementById("pasteBtn").onclick = async () => {
 try{
 
 const text = await navigator.clipboard.readText()
+
 input.value = text
+
+fetchVideo()
 
 }catch{
 
-alert("Clipboard access blocked")
+alert("Clipboard blocked")
 
 }
 
 }
+
 
 // FETCH VIDEO
-fetchBtn.onclick = async () => {
+async function fetchVideo(){
 
 const url = input.value
 
-if(!url){
-alert("Paste video link first")
-return
-}
-
-fetchBtn.innerText = "Fetching..."
+if(!url) return
 
 try{
 
 const res = await fetch("/api/download?url=" + encodeURIComponent(url))
+
 const data = await res.json()
 
 if(!data.video){
+
 alert("Video not found")
-fetchBtn.innerText = "Fetch Video"
 return
+
 }
 
-// DOWNLOAD BUTTON CREATE
-showDownload(data.video)
-
-fetchBtn.innerText = "Fetch Video"
+// SHOW PREVIEW
+showPreview(data.video)
 
 }catch{
 
 alert("Fetch failed")
-fetchBtn.innerText = "Fetch Video"
 
 }
 
 }
 
 
-// SHOW DOWNLOAD BUTTON
+// VIDEO PREVIEW
+function showPreview(videoUrl){
+
+let preview = document.getElementById("preview")
+
+if(!preview){
+
+preview = document.createElement("video")
+
+preview.id = "preview"
+preview.controls = true
+preview.style.width = "100%"
+preview.style.marginTop = "15px"
+
+document.querySelector(".card").appendChild(preview)
+
+}
+
+preview.src = videoUrl
+
+
+showDownload(videoUrl)
+
+}
+
+
+// DOWNLOAD BUTTON
 function showDownload(videoUrl){
 
-let oldBtn = document.getElementById("downloadBtn")
+let btn = document.getElementById("downloadBtn")
 
-if(oldBtn) oldBtn.remove()
+if(!btn){
 
-const btn = document.createElement("button")
+btn = document.createElement("button")
 
 btn.id = "downloadBtn"
 btn.innerText = "Download Video"
 
-btn.style.marginTop = "15px"
+btn.style.marginTop = "10px"
+
+document.querySelector(".card").appendChild(btn)
+
+}
 
 btn.onclick = () => {
 
 downloadVideo(videoUrl)
 
 }
-
-document.querySelector(".card").appendChild(btn)
 
 }
 
